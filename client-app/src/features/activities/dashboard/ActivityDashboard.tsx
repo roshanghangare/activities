@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid } from "semantic-ui-react";
-import { Activity } from "../../../app/layout/models/activity";
+import { Activity } from "../../../app/models/activity";
 import ActivityDetails from "../details/ActivityDetails";
 import ActivityForm from "../form/ActivityForm";
 import ActivityList from "./ActivityList";
@@ -14,16 +14,19 @@ interface Props {
     openForm: (id : string) => void,
     closeForm: () => void,
     saveActivity: (activity: Activity) => void,
-    deleteActivity: (id: string)=> void
+    deleteActivity: (id: string)=> void,
+    submitting: boolean
 }
 
-export default function ActivityDashboard({ activities, selectedActivity, cancelActivity, selectActivity, editMode, openForm, closeForm, saveActivity, deleteActivity }: Props) {
+export default function ActivityDashboard({ activities, selectedActivity, cancelActivity,
+     selectActivity, editMode, openForm, closeForm, saveActivity, deleteActivity, submitting }: Props) {
     return (
         <Grid>
             <Grid.Column width='10'>
                 <ActivityList activities={activities}
                     selectActivity={selectActivity}
                     deleteActivity={deleteActivity}
+                    submitting={submitting}
                     />
             </Grid.Column>
             <Grid.Column width='6'>
@@ -33,7 +36,12 @@ export default function ActivityDashboard({ activities, selectedActivity, cancel
                         cancelActivity={cancelActivity}
                         openForm = {openForm} />}
                 {editMode &&
-                <ActivityForm closeForm = {closeForm} activity = {selectedActivity} saveActivity={saveActivity}/>}
+                <ActivityForm 
+                    closeForm = {closeForm} 
+                    activity = {selectedActivity} 
+                    saveActivity={saveActivity} 
+                    submitting = {submitting}
+                />}
             </Grid.Column>
         </Grid>
     );
